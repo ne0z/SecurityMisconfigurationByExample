@@ -10,7 +10,7 @@ FROM ubuntu:16.04
 
 # Install common tools 
 RUN apt-get update
-RUN apt-get install -y wget curl nano htop git unzip bzip2 software-properties-common locales
+RUN apt-get install -y wget curl nano htop git unzip bzip2 software-properties-common locales git
 
 # Set evn var to enable xterm terminal
 ENV TERM=xterm
@@ -72,7 +72,8 @@ RUN mkdir -p /var/log/supervisor
 ADD resources/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy Source code
-COPY ./src /var/www/html
+RUN git clone https://github.com/ne0z/MisconfiguredPHPWebApp.git /var/www/html
+RUN composer install
 RUN chmod -R 777 /var/www/html
 
 #------------- Container Config ---------------------------------------------------------------
